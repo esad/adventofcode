@@ -2,7 +2,6 @@ open Core.Std
 
 module Wires = Map.Make(String)
 
-type ref = Wire of string | Value of int
 type wire_input = 
   | Value of string
   | And of string * string 
