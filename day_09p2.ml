@@ -1,7 +1,7 @@
 open Core.Std
 
 (* Naive and input specific solution: Input seems to have <10 cities and each city is connected to each other,
-   so let's just generate permutations of all cities and see which route is the cheapest (it works). *)
+   so let's just generate permutations of all cities and see which route is the cheapest (it works!). *)
 
 module StringSet = Set.Make(String)
 module ConnectionMap = Map.Make(struct type t = string * string with sexp, compare let compare = compare end)
