@@ -6,7 +6,7 @@ import Data.Maybe
 import Data.Traversable
 import Data.String
 import Data.Array
-import Data.Bifunctor (bimap)
+import Control.MonadZero (guard)
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Control.Monad.Eff.Exception (EXCEPTION())
@@ -30,7 +30,8 @@ pinPadLookup :: Position -> Maybe Char
 pinPadLookup (Tuple x y) = do
   row <- pinPad !! y
   char <- row !! x
-  if char == '.' then Nothing else Just char
+  guard $ char /= '.'
+  pure char
 
 move :: Char -> Position -> Position
 move c pos =
