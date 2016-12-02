@@ -19,6 +19,7 @@
     "purescript-enums": "^2.0.1",
     "purescript-simple-parser": "https://github.com/soupi/purescript-simple-parser.git#3a8e3cb4868d301571e39bc9cb02a44d8a540f68",
     "purescript-generics": "^3.1.0",
-    "purescript-sets": "^2.0.0"
+    "purescript-sets": "^2.0.0",
+    "purescript-node-fs": "^3.0.0"
   }
 }
