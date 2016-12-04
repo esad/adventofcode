@@ -34,8 +34,7 @@ main =
   readTextFile UTF8 "./src/Day3.in"
     >>= split (Pattern "\n") 
     >>> fromFoldable 
-    >>> mapMaybe (parseTriangle 
-    >>> (either (const Nothing) Just))
+    >>> mapMaybe (parseTriangle >>> (either (const Nothing) Just))
     >>> length 
     >>> show 
     >>> log
