@@ -1,21 +1,26 @@
-module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, Main) where
+module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, forceRight, Main) where
 
 import Prelude
-import Data.Function (applyFlipped)
+import Data.Maybe
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE, log)
 import Control.Monad.Eff.Exception (EXCEPTION)
-import Data.Maybe
-import Data.Either (Either, either)
+import Data.Either (Either(..), either)
+import Data.Function (applyFlipped)
 import Data.String (split, Pattern(..))
 import Node.Encoding (Encoding(UTF8))
-import Node.FS (FS())
+import Node.FS (FS)
 import Node.FS.Sync (readTextFile)
+import Partial.Unsafe (unsafeCrashWith)
 
 infixl 1 applyFlipped as |>
 
-eitherToMaybe :: forall a b .Either a b -> Maybe b
+eitherToMaybe :: forall a b . Either a b -> Maybe b
 eitherToMaybe = either (const Nothing) Just
+
+forceRight :: forall a b . Either a b -> b
+forceRight (Left _) = unsafeCrashWith "Can't extract right value"
+forceRight (Right x) = x
 
 type Main a = forall eff . Eff (fs :: FS, err :: EXCEPTION, console :: CONSOLE | eff) a
 
