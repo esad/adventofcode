@@ -14,9 +14,9 @@ abba :: String -> Boolean
 abba =
   toCharArray >>> fromFoldable >>> aux
   where
-  aux (x1 : x2 : x3 : x4 : _) | x1 == x4 && x2 == x3 && x1 /= x2 = true
-  aux Nil = false
-  aux (_:xs) = aux xs
+    aux (x1 : x2 : x3 : x4 : _) | x1 == x4 && x2 == x3 && x1 /= x2 = true
+    aux Nil = false
+    aux (_:xs) = aux xs
 
 supportsTLS :: String -> Boolean
 supportsTLS input =
