@@ -2,12 +2,13 @@ module Day7 where
 
 import Base
 import Data.String.Regex
+import Data.Array (length, filter)
 import Data.Foldable (and)
+import Data.Foldable (any)
 import Data.List ((:), List(..), fromFoldable)
+import Data.Maybe (maybe)
 import Data.String (toCharArray)
 import Data.Traversable (sequence)
-import Data.Foldable (any)
-import Data.Array (length, filter)
 
 abba :: String -> Boolean
 abba =
@@ -21,12 +22,9 @@ supportsTLS :: String -> Boolean
 supportsTLS input =
   not bracketsAbba && abba input
   where
-    bracketsAbba =
-      case match re input |> map sequence |> join |> map (any abba)  of
-        Nothing -> false
-        Just r -> r
+    bracketsAbba = match re input |> map sequence |> join |> map (any abba) |> fromMaybe false
     re = regex "\\[(.*?)\\]" (parseFlags "g") |> forceRight
-    
+
 main :: Main Unit
 main = do
   lines <- inputLines "./src/Day7.in"
