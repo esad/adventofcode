@@ -1,4 +1,4 @@
-module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, forceRight, Main) where
+module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, forceRight, forceJust, Main) where
 
 import Prelude
 import Data.Maybe
@@ -21,6 +21,10 @@ eitherToMaybe = either (const Nothing) Just
 forceRight :: forall a b . Either a b -> b
 forceRight (Left _) = unsafeCrashWith "Can't extract right value"
 forceRight (Right x) = x
+
+forceJust :: forall a . Maybe a -> a
+forceJust Nothing = unsafeCrashWith "Can't extract just value"
+forceJust (Just x) = x
 
 type Main a = forall eff . Eff (fs :: FS, err :: EXCEPTION, console :: CONSOLE | eff) a
 
