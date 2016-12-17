@@ -1,4 +1,4 @@
-module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, forceRight, forceJust, Main) where
+module Base (module Prelude, (|>), module Control.Monad.Eff, module Control.Monad.Eff.Console, module Data.Maybe, inputLines, eitherToMaybe, forceRight, forceJust, Main, debug) where
 
 import Prelude
 import Data.Maybe
@@ -12,6 +12,7 @@ import Node.Encoding (Encoding(UTF8))
 import Node.FS (FS)
 import Node.FS.Sync (readTextFile)
 import Partial.Unsafe (unsafeCrashWith)
+import Debug.Trace (trace)
 
 infixl 1 applyFlipped as |>
 
@@ -31,3 +32,7 @@ type Main a = forall eff . Eff (fs :: FS, err :: EXCEPTION, console :: CONSOLE |
 inputLines :: forall eff . String -> Eff (fs :: FS, err :: EXCEPTION | eff) (Array String)
 inputLines path =
   split (Pattern "\n") <$> readTextFile UTF8 path
+
+debug :: forall a. Show a => String -> a -> a
+debug str a =
+  trace (str <> show a) (const a)
