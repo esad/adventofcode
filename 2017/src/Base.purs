@@ -6,7 +6,7 @@ import Control.Monad.Eff.Exception (EXCEPTION)
 --import Control.Monad.Eff.Console (log)
 import Prelude
 import Data.List ((:), List(..)) as E
-import Data.Maybe (Maybe(..)) as E
+import Data.Maybe (Maybe(..), fromMaybe) as E
 
 import Control.Monad.Aff.Console (log) as E
 import Test.Unit (test, suite) as E 
