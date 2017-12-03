@@ -25,11 +25,8 @@ ring n = go 0 n where go k n = if n <= ar k then k else go (k+1) n
 
 solve1 :: Int -> Int
 solve1 n =
-  let
-    -- find the distance to the nearest pole
-    d = forceJust <<< minimum $ poles <#> (\p -> abs $ n - p) 
-  in
-    d + k -- this distance + index of the ring we are on should be the manhattan distance to 1
+  -- Manhattan distance to 1 = distance to the nearest pole + index of the ring the number is on:
+  (forceJust <<< minimum $ poles <#> \p -> abs $ n - p)     + k
   where
     k = ring n
     east = if k == 0 then 1 else ar (k-1) + k -- middle-right number on this ring
@@ -44,13 +41,13 @@ type Pos = Tuple Int Int
 coords :: Int -> Pos
 coords n =
   if between br tr n then
-    k & ( k - (tr - n))
+    k & k - (tr - n)
   else if between tr tl n then
-    (k - (n - tr)) & k
+    k - (n - tr) & k
   else if between tl bl n then
-    -k & (k - (n - tl))
+    -k & k - (n - tl)
   else
-    (k - (br' - n)) & -k --
+    k - (br' - n) & -k
   where
     k = ring n
     d = len k - 1
@@ -90,4 +87,3 @@ main = runTest do
     test "inputs" do
       log $ show $ solve1 277678
       log $ show $ solve2 277678
-
