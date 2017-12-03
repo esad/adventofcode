@@ -17,7 +17,7 @@ len k = k*2+1
 
 -- area of the k-th ring
 ar :: Int -> Int
-ar k = sq (len k)
+ar = sq <<< len
 
 -- which ring is the number on
 ring :: Int -> Int
