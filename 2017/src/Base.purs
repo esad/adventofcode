@@ -1,4 +1,4 @@
-module Base (module Prelude, module E, readFile, forceJust) where
+module Base (module Prelude, module E, readFile, forceJust, lines) where
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
@@ -18,9 +18,14 @@ import Node.FS.Aff as FS
 import Node.Encoding (Encoding(..))
 
 import Partial.Unsafe (unsafeCrashWith)
+import Data.Array (filter)
+import Data.String (split, Pattern(..), null)
 
 readFile = FS.readTextFile UTF8
 
 forceJust :: forall a . Maybe a -> a
 forceJust Nothing = unsafeCrashWith "Can't extract just value"
 forceJust (Just x) = x
+
+lines :: String -> Array String
+lines = split (Pattern "\n") >>> filter (not null)

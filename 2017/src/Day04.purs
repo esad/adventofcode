@@ -17,11 +17,11 @@ valid =
   
 solve1 :: String -> Int
 solve1 =
-  split (Pattern "\n") >>> filter (not null) >>> foldl (\acc x -> if valid x then acc+1 else acc) 0
+  lines >>> foldl (\acc x -> if valid x then acc+1 else acc) 0
 
 solve2 :: String -> Int
 solve2 =
-  split (Pattern "\n") >>> filter (not null) >>> map sortWords >>> joinWith "\n" >>> solve1
+  lines >>> map sortWords >>> joinWith "\n" >>> solve1
   where
     sortWords = split (Pattern " ") >>> map (toCharArray >>> sort >>> fromCharArray) >>> joinWith " "
 
