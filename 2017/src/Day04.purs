@@ -7,7 +7,6 @@ import Data.Foldable (foldl)
 import Data.Array (filter, sort)
 import Base
 
-
 valid :: String -> Boolean
 valid =
   split (Pattern " ") >>> fromFoldable >>> go empty
