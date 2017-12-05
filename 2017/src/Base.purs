@@ -1,4 +1,4 @@
-module Base (module Prelude, module E, readFile, forceJust, lines) where
+module Base (module Prelude, module E, readFile, forceJust, lines, parseInts) where
 
 import Control.Monad.Eff (Eff)
 import Control.Monad.Eff.Console (CONSOLE)
@@ -18,8 +18,9 @@ import Node.FS.Aff as FS
 import Node.Encoding (Encoding(..))
 
 import Partial.Unsafe (unsafeCrashWith)
-import Data.Array (filter)
+import Data.Array (filter, catMaybes)
 import Data.String (split, Pattern(..), null)
+import Data.Int (fromString)
 
 readFile = FS.readTextFile UTF8
 
@@ -29,3 +30,6 @@ forceJust (Just x) = x
 
 lines :: String -> Array String
 lines = split (Pattern "\n") >>> filter (not null)
+
+parseInts :: String -> Array Int
+parseInts = lines >>> map fromString >>> catMaybes
