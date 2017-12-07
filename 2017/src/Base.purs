@@ -22,6 +22,8 @@ import Data.Array (filter, catMaybes)
 import Data.String (split, Pattern(..), null)
 import Data.Int (fromString)
 
+import Debug.Trace (spy) as E
+
 readFile = FS.readTextFile UTF8
 
 forceJust :: forall a . Maybe a -> a
