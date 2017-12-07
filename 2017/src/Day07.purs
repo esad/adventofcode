@@ -69,19 +69,12 @@ root = find (\{parent} -> isNothing parent) >>> (map $ _.def.name) >>> forceJust
 solve1 :: String -> String
 solve1 = index >>> root
 
-solve2 :: String -> Maybe Int
+solve2 :: String -> Int
 solve2 input =
-  abs <$> diff (makeNode i (root i)) 0
+  diff (makeNode i (root i)) 0
   where
     i = index input
-    diff :: Node -> Int -> Maybe Int
-    diff (Node {children: []}) d = Just d
-    diff (Node {children: [a], weight }) d = diff a (d-weight)
-    diff (Node {children: [a,b], weight }) d = 
-      let
-        wa = readWeight a
-        wb = readWeight b
-      in if wa == wb then Just (d - weight) else diff a wb
+    diff :: Node -> Int -> Int
     diff (Node {children, weight, name}) d =
       let
         groups = groupBy ((==) `on` readWeight) children
@@ -90,7 +83,7 @@ solve2 input =
         case find (\xs -> length xs == 1) groups of
           Nothing ->
             -- no unbalanced children, this node should be adjusted
-            Just $ d - (sum $ readWeight <$> children)
+            d - (sum $ readWeight <$> children)
           Just unbalanced ->
             diff (head unbalanced) (readWeight balanced)
 
@@ -98,7 +91,7 @@ main = runTest do
   suite "Day7" do
     test "part 1" do
       equal "tknk" $ solve1 sample
-      equal (Just 60) $ solve2 sample
+      equal 60 $ solve2 sample
     test "input" do
       input <- readFile "./inputs/Day07.txt"
       log $ show $ solve1 input
