@@ -18,10 +18,21 @@ double([_ | R]) :- double(R).
 triple([[X, X, X] | _]).
 triple([_ | R]) :- triple(R).
 
+pair([X|Xs], (X, Y)) :- member(Y, Xs).
+pair([_|Xs], P) :- pair(Xs, P).
+pair([], _) :- false.
+
+same(([X|Xs], [X|Ys])) :- same((Xs, Ys)).
+same(([X|Xs], [Y|Xs])) :- X \= Y.
+
 main :-
   input(Lines),
   maplist(process, Lines, Entries),
   include(double, Entries, Doubles), length(Doubles, D),
   include(triple, Entries, Triples), length(Triples, T),
   Result is D * T,
-  writeln(Result).
+  writeln(Result),
+  maplist(string_chars, Lines, Words),
+  findall(P, pair(Words, P), Pairs),
+  include(same, Pairs, MatchingPairs),
+  writeln(MatchingPairs).
