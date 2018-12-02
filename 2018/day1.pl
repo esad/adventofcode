@@ -9,7 +9,6 @@ double_occurence(X, _, _, S, X) :- member(X, S).
 double_occurence(X, A, [], S, Y) :- double_occurence(X, [], A, S, Y).
 double_occurence(X, A, [C | Changes], Seen, Result) :-
   X2 is X + C,
-  writeln(X2),
   append(A, [C], A2),
   double_occurence(X2, A2, Changes, [X | Seen], Result).
 
