@@ -16,7 +16,7 @@ main :-
   input(Lines),
   maplist(atom_number, Lines, Numbers),
   sumlist(Numbers, Part1),
-  writeln(Part1).
+  writeln(Part1),
   % Part 2 will take ~15 mins due to inefficient list lookups
   once(double_occurence(0, [], Numbers, [], Part2)),
   writeln(Part2).
