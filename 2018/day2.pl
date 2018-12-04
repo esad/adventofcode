@@ -1,9 +1,6 @@
 #!/usr/bin/env swipl -O -t main --quiet
 
-input(R) :-
-  read_string(user_input, _, S),
-  split_string(S, "\n", "", L),
-  exclude(=(""), L, R).
+:- consult(shared).
 
 rle([], []).
 rle([C], [[C]]).
@@ -22,8 +19,8 @@ pair([X|Xs], (X, Y)) :- member(Y, Xs).
 pair([_|Xs], P) :- pair(Xs, P).
 pair([], _) :- false.
 
-same(([X|Xs], [X|Ys])) :- same((Xs, Ys)).
-same(([X|Xs], [Y|Xs])) :- X \= Y.
+similar(([X|Xs], [Y|Xs])) :- dif(X, Y).
+similar(([X|Xs], [X|Ys])) :- similar((Xs, Ys)).
 
 main :-
   input(Lines),
@@ -34,5 +31,5 @@ main :-
   writeln(Result),
   maplist(string_chars, Lines, Words),
   findall(P, pair(Words, P), Pairs),
-  include(same, Pairs, MatchingPairs),
+  include(similar, Pairs, MatchingPairs),
   writeln(MatchingPairs).

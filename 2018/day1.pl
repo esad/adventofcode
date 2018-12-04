@@ -1,9 +1,6 @@
 #!/usr/bin/env swipl -O -t main --quiet
 
-input(R) :-
-  read_string(user_input, _, S),
-  split_string(S, "\n", "", L),
-  exclude(=(""), L, R).
+:- consult(shared).
 
 double_occurence(X, _, _, S, X) :- member(X, S).
 double_occurence(X, A, [], S, Y) :- double_occurence(X, [], A, S, Y).
