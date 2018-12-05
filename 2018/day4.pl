@@ -17,7 +17,6 @@ sleep(G-Ds) --> [log(_, start(G))], durations(Ds).
 durations([D]) --> duration(D).
 durations([D | Ds]) --> duration(D), durations(Ds).
 durations([]) --> [].
-
 duration(M1-M2) --> [log(ts(_,_,_,_,M1), asleep), log(ts(_,_,_,_,M2), awake)].
 
 count([], 0).
