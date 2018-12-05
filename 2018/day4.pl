@@ -33,9 +33,11 @@ sleepiest(Entry, Max, Best) :- Entry = _-(Total-_), Max = _-(TotalMax-_), (Total
 
 minute(M) :- between(0, 59, M).
 
-sleeps_minute([], M, 0).
+sleeps_minute([], _, 0).
 sleeps_minute([M1-M2|Ds], Min, Count) :-
   sleeps_minute(Ds, Min, C), M2S is M2 - 1, (between(M1, M2S, Min) -> Count is C + 1 ; Count = C).
+
+guard_intervals(G-(_-Dss), guard_sleeps(G, Ds)) :- flatten(Dss, Ds).
 
 main :-
   input(Lines),
@@ -48,4 +50,9 @@ main :-
   flatten(Dss, Ds),
   aggregate(max(X,M), M, (minute(M), sleeps_minute(Ds, M, X)), max(_, Minute)),
   Result is Guard * Minute,
-  writeln(Result).
+  writeln(Result),
+  rb_visit(T2, Pairs),
+  maplist(guard_intervals, Pairs, GI), assert_all(GI),
+  aggregate_all(max(X,G-M), (guard_sleeps(G, GDs), minute(M), sleeps_minute(GDs, M, X)), max(_, Guard2-Minute2)),
+  Result2 is Guard2 * Minute2,
+  writeln(Result2).
