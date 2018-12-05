@@ -7,7 +7,7 @@
 reacts(C, C2) :- upper_lower(C, C2).
 reacts(C, C2) :- upper_lower(C2, C).
 
-step([C | Xs], X, Ignore, Y) :- member(C, Ignore), !, step(Xs, X, Ignore, Y).
+step([C | Xs], X, Ignore, Y) :- member(C, Ignore), step(Xs, X, Ignore, Y).
 step([], [], _, false).
 step([C], [C], _, false).
 step([C | [C2 | Cs]], X, I, P) :- reacts(C, C2) -> (step(Cs, X, I, _), P = true) ; (step([C2 | Cs], Y, I, P), X = [C | Y]).
