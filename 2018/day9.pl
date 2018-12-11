@@ -2,14 +2,22 @@
 
 :- use_module(library(rbtrees)).
 
-insert([X,Y|T]-[X,Y|L], N, [N|T]-L).
+start(z([],0,[])).
 
-start([0|T]-T).
+% Just a simple circular zipper:
+z_next(z([], E, []), z([], E, [])).
+z_next(z(B, E, [N|NN]), z([E|B], N, NN)).
+z_next(z([B], E, []), z([E], B, [])).
+z_next(z(B, E, []), z([], R, RR)) :- B = [_,_|_], reverse([E|B], [R|RR]).
 
-append_dl(A-B, B-C, A-C).
+z_insert(X, z(B, E, N), z([E|B], X, N)).
+z_prev(Z1, Z2) :- z_next(Z2, Z1).
+z_drop(z(B, E, [N|NN]), E, z(B, N, NN)).
 
-remove([D,A1,A2,A3,A4,A5,A6]-[], D, [A1,A2,A3,A4,A5,A6|L]-L, X-X) :- !.
-remove([H|Rest]-T, D, P-PP, [H|R]-RR) :- remove(Rest-T, D, P-PP, R-RR). 
+insert(Z, N, Z3) :- z_next(Z, Z2), z_insert(N, Z2, Z3).
+remove(Z, D, Zout) :-
+  z_prev(Z, Z1), z_prev(Z1, Z2), z_prev(Z2, Z3), z_prev(Z3, Z4), z_prev(Z4, Z5), z_prev(Z5, Z6), z_prev(Z6,Z7),
+  z_drop(Z7, D, Zout).
 
 add_score(Scoreboard, Player, Points, Scoreboard2) :-
   rb_lookup(Player, Score, Scoreboard)
@@ -17,10 +25,8 @@ add_score(Scoreboard, Player, Points, Scoreboard2) :-
   ; rb_insert_new(Scoreboard, Player, Points, Scoreboard2).
 
 turn(Player, Marble, Circle-Scoreboard, Circle2-Scoreboard2) :-
-  writeln(Marble),
   (Marble mod 23) =:= 0 ->
-    remove(Circle, Dropped, P1, P2),
-    append_dl(P1, P2, Circle2),
+    remove(Circle, Dropped, Circle2),
     Points is Dropped + Marble,
     add_score(Scoreboard, Player, Points, Scoreboard2)
   ;
@@ -33,7 +39,6 @@ play(Player, Marble, Players, Marbles, S, S2) :-
     M is Marble + 1,
     play(P, M, Players, Marbles, T, S2)
   ;
-    S2 = _-[]-_,
     S2 = T
   ).
 
@@ -43,5 +48,5 @@ highscore(Scoreboard, S) :- rb_fold(best, Scoreboard, none-0, S).
 main :-
   start(DL),
   %rb_empty(X), play(0, 1, 9, 25, DL-X, S), _-H = S, highscore(H, _-P),
-  rb_empty(X), play(0, 1, 463, 71787, DL-X, S), _-H = S, highscore(H, _-P),
+  rb_empty(X), play(0, 1, 463, 7178700, DL-X, S), _-H = S, highscore(H, _-P),
   writeln(P).
