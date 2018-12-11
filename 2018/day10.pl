@@ -2,7 +2,6 @@
 
 :- consult(shared).
 
-:- use_module(library(rbtrees)).
 :- use_module(library(dcg/basics), [integer//1, blanks//0]).
 
 point([X,Y]-[Vx, Vy]) -->
