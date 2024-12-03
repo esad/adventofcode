@@ -1,4 +1,4 @@
-Solutions [Advent of Code](https://www.adventofcode.com) puzzles, usually in languages I was dabbling with at the time.
+Solutions of [Advent of Code](https://www.adventofcode.com) puzzles, usually in languages I was dabbling with at the time:
 
 * [2024](2024/) - Ruby actually is great at this kind of stuff
 * [2018](2018/) - Prolog
