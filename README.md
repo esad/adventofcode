@@ -1,6 +1,7 @@
-Practicing new languages by solving [Advent of Code](https://www.adventofcode.com) puzzles.
+Solutions [Advent of Code](https://www.adventofcode.com) puzzles, usually in languages I was dabbling with at the time.
 
-* [2018](2018/) in Prolog
-* [2017](2017/) in PureScript (again! trying to be more idiomatic this time)
-* [2016](2016/) in PureScript
-* [2015](2015/) in OCaml
+* [2024](2024/) - Ruby actually is great at this kind of stuff
+* [2018](2018/) - Prolog
+* [2017](2017/) - PureScript (again! trying to be more idiomatic this time)
+* [2016](2016/) - PureScript
+* [2015](2015/) - OCaml
