@@ -65,3 +65,65 @@ def day3_b
   end
   result
 end
+
+def day4
+  lines = File.read("day4.txt").split(/\n/)
+  w = lines.first.length
+  h = lines.count
+  letters = lines.join.split('')
+  sum = 0
+  for x in 0..(w-1)
+    for y in 0..(h-1)
+      day4_all_directions(x, y, w, h).map do |ps|
+        sum +=1 if ps.map { |xx, yy| letters[yy * w + xx] }.join == "XMAS"
+      end
+    end
+  end
+end
+
+def day4_all_directions(x, y, w, h)
+  x0 = [x, x+1, x+2, x+3]
+  x1 = [x, x-1, x-2, x-3]
+  y0 = [y, y+1, y+2, y+3]
+  y1 = [y, y-1, y-2, y-3]
+  candidates = []
+  candidates << x0.map { [_1, y] } unless x > w - 4 # e
+  candidates << x0.zip(y0) unless y > h - 4 || x > w - 4 # se
+  candidates << y0.map { [x, _1] } unless y > h - 4  # s
+  candidates << x1.zip(y0) unless x < 3 || y > h - 4 # sw
+  candidates << x1.map { [_1, y] } unless x < 3 # w
+  candidates << x1.zip(y1) unless x < 3 || y < 3 # nw
+  candidates << y1.map { [x, _1] } unless y < 3 # n
+  candidates << x0.zip(y1) unless x > w - 4 || y < 3 # ne
+  candidates
+end
+
+def day4b
+  lines = File.read("day4.txt").split(/\n/)
+  w = lines.first.length
+  h = lines.count
+  letters = lines.join.split('')
+  sum = 0
+  hits = {}
+  for x in 0..(w-1)
+    for y in 0..(h-1)
+      candidates = day4_all_directions_b(x, y, w, h)
+      sum +=1 if !candidates.empty? && candidates.all? do |ps|
+        word = ps.map { |xx, yy| letters[yy * w + xx] }.join
+        word == "MAS" || word == "SAM"
+      end
+    end
+  end
+  sum
+end
+
+def day4_all_directions_b(x, y, w, h)
+  if x < 1 || y < 1 || x > w - 2 || y > h - 2
+    []
+  else
+    [
+      [[x-1, y-1], [x,y], [x+1, y+1]],
+      [[x-1, y+1], [x,y], [x+1, y-1]]
+    ]
+  end
+end
