@@ -32,7 +32,7 @@ def day2_data
 end
 
 def day2_safe?(line)
-  # Ok this is very inefficient but the input is very small, so let's stay "declaratative":
+  # Ok this is very inefficient but the input is very small, so let's stay "declarative":
   line.sort.then { _1 == line || _1.reverse == line } && line.inject { |acc, x| acc && (x-acc).abs.between?(1,3) && x }
 end
 
