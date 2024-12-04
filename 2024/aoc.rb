@@ -52,3 +52,16 @@ end
 def day3
   File.read("day3.txt").scan(/mul\((\d+),(\d+)\)/).map {|a,b| a.to_i*b.to_i}.sum
 end
+
+def day3_b
+  require 'strscan'
+  ss = File.read("day3.txt").then { StringScanner.new _1 }
+  result = 0
+  start = true
+  while !ss.eos? && start || ss.skip_until(/do\(\)/)
+    line = ss.scan_until(/don\'t\(\)/)
+    result += line.scan(/mul\((\d+),(\d+)\)/).map {|a,b| a.to_i*b.to_i}.sum
+    start = false
+  end
+  result
+end
